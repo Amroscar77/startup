@@ -1,0 +1,5 @@
+{
+  "name": "The Editorial Market",
+  "description": "A crowdsourced price intelligence platform for real-time market data in Egypt.",
+  "requestFramePermissions": ["geolocation", "camera"]
+}

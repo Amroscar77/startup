@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User profile information including gamification stats",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "points": { "type": "number" },
+        "rank": { "type": "string" },
+        "trustScore": { "type": "number" },
+        "pricesAdded": { "type": "number" },
+        "location": { "type": "string" },
+        "fcmTokens": { "type": "array", "items": { "type": "string" } },
+        "currentStreak": { "type": "number" },
+        "maxStreak": { "type": "number" },
+        "lastActiveDate": { "type": "string", "format": "date" }
+      },
+      "required": ["displayName", "points"]
+    },
+    "PriceHistory": {
+      "title": "Price History",
+      "description": "Historical price snapshot for an item at a location",
+      "type": "object",
+      "properties": {
+        "itemId": { "type": "string", "description": "Unique ID for item+store+location" },
+        "price": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "submissionId": { "type": "string" }
+      },
+      "required": ["itemId", "price", "timestamp"]
+    },
+    "DailyMission": {
+      "title": "Daily Mission",
+      "description": "User's progress on daily tasks",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "pricesAdded": { "type": "number" },
+        "pricesConfirmed": { "type": "number" },
+        "completed": { "type": "boolean" }
+      },
+      "required": ["date"]
+    },
+    "PriceSubmission": {
+      "title": "Price Submission",
+      "description": "A price report for a specific item at a location",
+      "type": "object",
+      "properties": {
+        "itemName": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string" },
+        "storeName": { "type": "string" },
+        "location": { "type": "object" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userPhoto": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "verified": { "type": "boolean" },
+        "confirmations": { "type": "number" },
+        "reports": { "type": "number" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["itemName", "price", "storeName", "userId", "timestamp"]
+    },
+    "MarketAlert": {
+      "title": "Market Alert",
+      "description": "Real-time alerts about price changes or volatility",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["drop", "rise", "volatility", "verified"] },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "itemId": { "type": "string" }
+      },
+      "required": ["type", "title", "message", "timestamp"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles"
+    },
+    "submissions/{submissionId}": {
+      "schema": "PriceSubmission",
+      "description": "Price submissions from users"
+    },
+    "price_history/{historyId}": {
+      "schema": "PriceHistory",
+      "description": "Global price history for all items"
+    },
+    "users/{userId}/daily_stats/{date}": {
+      "schema": "DailyMission",
+      "description": "Daily mission progress for a user"
+    },
+    "alerts/{alertId}": {
+      "schema": "MarketAlert",
+      "description": "Global or regional market alerts"
+    }
+  }
+}
